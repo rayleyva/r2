@@ -30,3 +30,32 @@ p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
         send get request to github.com, check return code
         [PASS] <./t1.l:6> ret 200
 
+### Commands
+
+* echo commands:
+
+        echo <msg1> <msg2> ...
+        red <msg1> <msg2> ...
+        green <msg1> <msg2> ...
+        brown <msg1> <msg2> ...
+        blue <msg1> <msg2> ...
+        magenta <msg1> <msg2> ...
+        cyan <msg1> <msg2> ...
+
+* generate a request:
+
+        req <method> <url>
+
+* send the request and test response
+
+        ret <status_code>
+
+### Examples
+
+for detail, see dir `example`, run example code:
+
+    // run 001-ret.l
+    p28 example/001-ret.l
+
+    // run all test case in example
+    p28 example/*.l

@@ -17,8 +17,26 @@ func Green(args ...interface{}) {
 	fmt.Print("\033[0m")
 }
 
-func Yellow(args ...interface{}) {
+func Brown(args ...interface{}) {
 	fmt.Print("\033[033m")
+	fmt.Println(args...)
+	fmt.Print("\033[0m")
+}
+
+func Blue(args ...interface{}) {
+	fmt.Print("\033[034m")
+	fmt.Println(args...)
+	fmt.Print("\033[0m")
+}
+
+func Magenta(args ...interface{}) {
+	fmt.Print("\033[035m")
+	fmt.Println(args...)
+	fmt.Print("\033[0m")
+}
+
+func Cyan(args ...interface{}) {
+	fmt.Print("\033[036m")
 	fmt.Println(args...)
 	fmt.Print("\033[0m")
 }

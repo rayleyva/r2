@@ -6,8 +6,8 @@ import (
 
 func usage() {
 	cmd := os.Args[0]
-	Yellow("Usage of ", cmd)
-	Yellow("    ", cmd, "<mytest.l> ...")
+	Brown("Usage of ", cmd)
+	Brown("    ", cmd, "<mytest.l> ...")
 }
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 	}
 	for _, file := range os.Args[1:] {
 		if line, err := Launch(file); err != nil {
-			Yellow("[Error]", FileLine(file, line), ">>>", err.Error())
+			Brown("[Error]", FileLine(file, line), ">>>", err.Error())
 		}
 	}
 }

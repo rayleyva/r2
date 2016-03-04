@@ -6,14 +6,50 @@ import (
 	"strings"
 )
 
-// echo msg1 msg2 ... msgN
-func echo(cmd *Cmd) (error, CmdExecCallBack) {
+func echoF(cmd *Cmd, f func(...interface{})) (error, CmdExecCallBack) {
 	args := make([]interface{}, len(cmd.args))
 	for i := 0; i < len(args); i++ {
 		args[i] = interface{}(cmd.args[i])
 	}
-	_, err := fmt.Println(args...)
-	return err, nil
+	f(args...)
+	return nil, nil
+}
+
+// echo msg1 msg2 ... msgN
+func echo(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, func(args ...interface{}) {
+		fmt.Println(args...)
+	})
+}
+
+// red msg1 msg2 ... msgN
+func red(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, Red)
+}
+
+// green msg1 msg2 ... msgN
+func green(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, Green)
+}
+
+// brown msg1 msg2 ... msgN
+func brown(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, Brown)
+}
+
+// blue msg1 msg2 ... msgN
+func blue(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, Blue)
+}
+
+// magenta msg1 msg2 ... msgN
+func magenta(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, Magenta)
+}
+
+// Cyan msg1 msg2 ... msgN
+func cyan(cmd *Cmd) (error, CmdExecCallBack) {
+	return echoF(cmd, Cyan)
 }
 
 // req get https://github.com/

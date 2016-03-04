@@ -67,6 +67,7 @@ func (r *Req) Init() {
 		r.header = make(map[string]string)
 		r.body = new(bytes.Buffer)
 		r.inited = true
+		r.launched = false
 	}
 }
 
