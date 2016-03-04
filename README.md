@@ -21,7 +21,7 @@ p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
         req get https://github.com
         ret 200
 
-* Assume your file name is `001-ret.l` (see example/001-ret.l):
+* Assume your file name is `001-ret.l` (see [example/001-ret.l](https://github.com/brg-liuwei/p28/blob/master/examples/001-ret.l)):
 
         chmod +x 001-ret.l
         ./001-ret.l
