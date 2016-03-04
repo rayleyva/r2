@@ -3,14 +3,19 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"io"
+	"os"
 )
 
-func Launch(r io.Reader) (int, error) {
-	defer recover()
+func Launch(filename string) (int, error) {
+	f, err := os.Open(filename)
+	if err != nil {
+		return 0, errors.New("Open File [" + filename + "] Error: " + err.Error())
+	}
+	defer f.Close()
 
-	reader := bufio.NewReader(r)
-
+	reader := bufio.NewReader(f)
 	for lineNo := 1; ; lineNo++ {
 		buf := make([]byte, 0, 32)
 		for {
@@ -39,23 +44,26 @@ func Launch(r io.Reader) (int, error) {
 		}
 
 		buf = bytes.TrimSpace(buf)
-
 		if len(buf) == 0 {
 			continue
 		}
 
+		// #: comments
 		if buf[0] == '#' {
 			continue
 		}
 
 		cmd, err := CmdParser(string(buf))
-
 		if err != nil {
 			return lineNo, err
 		}
 
-		if err := cmd.Exec(); err != nil {
+		err, callback := cmd.Exec()
+		if err != nil {
 			return lineNo, err
+		}
+		if callback != nil {
+			callback(filename, lineNo)
 		}
 	}
 }
