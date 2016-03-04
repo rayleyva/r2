@@ -12,15 +12,15 @@ p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
 
 * Write the content as follows into a text file:
 
-    #!/usr/bin/env p28
+        #!/usr/bin/env p28
 
-    # this is comment
-    echo hello world
+        # this is comment
+        echo hello world
 
 * Assume your file name is `hello.l`:
 
-    chmod +x hello.l
-    ./hello.l
+        chmod +x hello.l
+        ./hello.l
 
-    // Output:
-    hello world
+        // Output:
+        hello world
