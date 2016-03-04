@@ -1,4 +1,6 @@
-# p28: a DSL(Domain-Specific Language) for HTTP Auto Test
+# p28: a DSL for HTTP Auto Test
+
+What is [DSL](https://en.wikipedia.org/wiki/Domain-specific_language)(Domain-Specific Language)?
 
 ### Synposis
 
