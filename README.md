@@ -8,7 +8,7 @@ p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
 
 ### Installation
 
-    go install github.com/brg-liuwei/p28
+    go get -u github.com/brg-liuwei/p28
 
 ### Usage
 
@@ -46,7 +46,7 @@ p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
 
         req <method> <url>
 
-* send the request and test response
+* test response
 
         ret <status_code>
 
@@ -59,3 +59,21 @@ for detail, see dir `example`, run example code:
 
     // run all test case in example
     p28 example/*.l
+
+### TODO
+
+* generate a request:
+
+        header <key> <value1> <value2> ...
+        auth <auth-name> <auth-interface>
+        body <data>
+
+* test response
+
+        header-equal <key> <value1> <value2> ...
+        header-match <key> <regexp-value>
+
+        body-equal <data>
+        body-match <regexp-data>
+
+        latency <micro-second>
