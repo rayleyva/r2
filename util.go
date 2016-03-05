@@ -5,40 +5,44 @@ import (
 	"strconv"
 )
 
-func Red(args ...interface{}) {
-	fmt.Print("\033[031m")
+const (
+	RED     = "\033[031m"
+	GREEN   = "\033[032m"
+	BROWN   = "\033[033m"
+	BLUE    = "\033[034m"
+	MAGENTA = "\033[035m"
+	CYAN    = "\033[036m"
+	RECOVER = "\033[0m"
+)
+
+func echoColor(color string, args ...interface{}) {
+	fmt.Print(color)
 	fmt.Println(args...)
-	fmt.Print("\033[0m")
+	fmt.Print(RECOVER)
+}
+
+func Red(args ...interface{}) {
+	echoColor(RED, args...)
 }
 
 func Green(args ...interface{}) {
-	fmt.Print("\033[032m")
-	fmt.Println(args...)
-	fmt.Print("\033[0m")
+	echoColor(GREEN, args...)
 }
 
 func Brown(args ...interface{}) {
-	fmt.Print("\033[033m")
-	fmt.Println(args...)
-	fmt.Print("\033[0m")
+	echoColor(BROWN, args...)
 }
 
 func Blue(args ...interface{}) {
-	fmt.Print("\033[034m")
-	fmt.Println(args...)
-	fmt.Print("\033[0m")
+	echoColor(BLUE, args...)
 }
 
 func Magenta(args ...interface{}) {
-	fmt.Print("\033[035m")
-	fmt.Println(args...)
-	fmt.Print("\033[0m")
+	echoColor(MAGENTA, args...)
 }
 
 func Cyan(args ...interface{}) {
-	fmt.Print("\033[036m")
-	fmt.Println(args...)
-	fmt.Print("\033[0m")
+	echoColor(CYAN, args...)
 }
 
 type CmdExecCallBack func(file string, line int)

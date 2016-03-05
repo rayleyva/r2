@@ -8,6 +8,8 @@ What is [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) (Domain-Sp
 
 And I like this guy.
 
+![R2-D2](R2-D2_Droid.png)
+
 ### Installation
 
     go get -u github.com/brg-liuwei/r2
@@ -30,7 +32,7 @@ And I like this guy.
 
         // Output:
         send get request to github.com, check return code
-        [PASS] <./t1.l:6> ret 200
+        [PASS] <./001-ret.l:6> ret 200
 
 ### Commands
 
