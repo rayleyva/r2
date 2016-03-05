@@ -1,4 +1,4 @@
-#!/usr/bin/env p28
+#!/usr/bin/env r2
 
 # file: 001-ret.l
 

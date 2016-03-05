@@ -1,27 +1,29 @@
-# p28: a DSL for HTTP Auto Test
+# r2: a DSL for HTTP Auto Test
 
 What is [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) (Domain-Specific Language)?
 
 ### Synposis
 
-p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
+[R2-D2](https://en.wikipedia.org/wiki/R2-D2) or Artoo-Detoo (called "R2" for short) is a fictional character in the Star Wars universe.
+
+And I like this guy.
 
 ### Installation
 
-    go get -u github.com/brg-liuwei/p28
+    go get -u github.com/brg-liuwei/r2
 
 ### Usage
 
 * Write the content as follows into a text file:
 
-        #!/usr/bin/env p28
+        #!/usr/bin/env r2
 
         # this is comment
         echo send get request to github.com, check return code
         req get https://github.com
         ret 200
 
-* Assume your file name is `001-ret.l` (see [example/001-ret.l](https://github.com/brg-liuwei/p28/blob/master/examples/001-ret.l)):
+* Assume your file name is `001-ret.l` (see [example/001-ret.l](https://github.com/brg-liuwei/r2/blob/master/examples/001-ret.l)):
 
         chmod +x 001-ret.l
         ./001-ret.l
@@ -55,10 +57,10 @@ p28 means Perfect Numer 28. As known to all, 28 is the first perfect number.
 for detail, see dir `example`, run example code:
 
     // run 001-ret.l
-    p28 example/001-ret.l
+    r2 example/001-ret.l
 
     // run all test case in example
-    p28 example/*.l
+    r2 example/*.l
 
 ### TODO
 
