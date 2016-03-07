@@ -34,6 +34,7 @@ var gCmdMap map[string]cmdValue = map[string]cmdValue{
 	"magenta": {narg: -1, exec: magenta},
 	"cyan":    {narg: -1, exec: cyan},
 	"req":     {narg: 2, exec: req},
+	"header":  {narg: 2, exec: header},
 	"ret":     {narg: 1, exec: ret},
 }
 

@@ -152,7 +152,11 @@ func (r *Req) Launch(rep *Rep) error {
 		return err
 	}
 
-	// TODO: Add Headers here
+	if len(r.header) > 0 {
+		for k, v := range r.header {
+			req.Header.Add(k, v)
+		}
+	}
 
 	rep.rawRep, err = gCli.Do(req)
 	r.launched = true

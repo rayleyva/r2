@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -65,6 +66,15 @@ func req(cmd *Cmd) (error, CmdExecCallBack) {
 	if err := gReq.SetUrl(cmd.args[1]); err != nil {
 		return err, nil
 	}
+	return nil, nil
+}
+
+// header Content-Type application/json
+func header(cmd *Cmd) (error, CmdExecCallBack) {
+	if !gReq.inited {
+		return errors.New("req has not been inited"), nil
+	}
+	gReq.header[cmd.args[0]] = cmd.args[1]
 	return nil, nil
 }
 

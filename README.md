@@ -68,13 +68,13 @@ for detail, see dir `example`, run example code:
 
 * generate a request:
 
-        header <key> <value1> <value2> ...
+        header <key> <value>
         auth <auth-name> <auth-interface>
         body <data>
 
 * test response
 
-        header-equal <key> <value1> <value2> ...
+        header-equal <key> <value>
         header-match <key> <regexp-value>
 
         body-equal <data>
