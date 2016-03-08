@@ -2,7 +2,7 @@
 
 What is [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) (Domain-Specific Language)?
 
-### Synposis
+### Synopsis
 
 [R2-D2](https://en.wikipedia.org/wiki/R2-D2) or Artoo-Detoo (called "R2" for short) is a fictional character in the Star Wars universe.
 
