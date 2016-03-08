@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"strconv"
@@ -75,6 +76,15 @@ func header(cmd *Cmd) (error, CmdExecCallBack) {
 		return errors.New("req has not been inited"), nil
 	}
 	gReq.header[cmd.args[0]] = cmd.args[1]
+	return nil, nil
+}
+
+// body "{\"id\":1,\"value\":[1,2,3],\"comment\":\"just for testing\"}"
+func body(cmd *Cmd) (error, CmdExecCallBack) {
+	if !gReq.inited {
+		return errors.New("req has not been inited"), nil
+	}
+	gReq.body = bytes.NewBuffer([]byte(cmd.args[0]))
 	return nil, nil
 }
 

@@ -26,6 +26,7 @@ type cmdValue struct {
 type cmdMap map[string]cmdValue
 
 var gCmdMap map[string]cmdValue = map[string]cmdValue{
+	// echo commands
 	"echo":    {narg: -1, exec: echo},
 	"red":     {narg: -1, exec: red},
 	"green":   {narg: -1, exec: green},
@@ -33,9 +34,14 @@ var gCmdMap map[string]cmdValue = map[string]cmdValue{
 	"blue":    {narg: -1, exec: blue},
 	"magenta": {narg: -1, exec: magenta},
 	"cyan":    {narg: -1, exec: cyan},
-	"req":     {narg: 2, exec: req},
-	"header":  {narg: 2, exec: header},
-	"ret":     {narg: 1, exec: ret},
+
+	// request commands
+	"req":    {narg: 2, exec: req},
+	"header": {narg: 2, exec: header},
+	"body":   {narg: 1, exec: body},
+
+	// response commands
+	"ret": {narg: 1, exec: ret},
 }
 
 func CmdParser(line string) (*Cmd, error) {
