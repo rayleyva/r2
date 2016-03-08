@@ -113,7 +113,7 @@ For detail, see dir `example`, run example code:
             }
         }
 
-* Write test case (see [004-header-body.l](example/004-header-body.l) for detail):
+* Write test case (see [004-header-body.l](examples/004-header-and-body.l) for detail):
 
         #!/usr/bin/env r2
 
