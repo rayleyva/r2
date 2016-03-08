@@ -31,12 +31,12 @@ And I like this guy.
         ./001-ret.l
 
         // Output:
-        send get request to github.com, check return code
-        [PASS] <./001-ret.l:6> ret 200
+        // send get request to github.com, check return code
+        // [PASS] <./001-ret.l:6> ret 200
 
 ### Commands
 
-* echo commands:
+* Echo commands:
 
         echo <msg1> <msg2> ...
         red <msg1> <msg2> ...
@@ -46,19 +46,19 @@ And I like this guy.
         magenta <msg1> <msg2> ...
         cyan <msg1> <msg2> ...
 
-* generate a request:
+* Generate a request:
 
         req <method> <url>
         header <key> <value>
         body <data>
 
-* test response
+* Test response
 
         ret <status_code>
 
 ### Examples
 
-for detail, see dir `example`, run example code:
+For detail, see dir `example`, run example code:
 
     // run 001-ret.l
     r2 example/001-ret.l
@@ -68,7 +68,7 @@ for detail, see dir `example`, run example code:
 
 ##### Examples of `header` and `body`:
 
-* edit your nginx config file as follows:
+* Edit your nginx config file as follows:
 
         server {
             listen 9999;
@@ -113,7 +113,7 @@ for detail, see dir `example`, run example code:
             }
         }
 
-* write test case (see [004-header-body.l](example/004-header-body.l) for detail):
+* Write test case (see [004-header-body.l](example/004-header-body.l) for detail):
 
         #!/usr/bin/env r2
 
@@ -150,7 +150,7 @@ for detail, see dir `example`, run example code:
         body {"ret":204}
         ret 204
 
-* run example code:
+* Run example code:
 
         cd /path/to/example/004-header-body.l
         ./004-header-body.l
@@ -171,11 +171,11 @@ for detail, see dir `example`, run example code:
 
 ### TODO
 
-* generate a request:
+* Generate a request:
 
         auth <auth-name> <auth-interface>
 
-* test response
+* Test response
 
         header-equal <key> <value>
         header-match <key> <regexp-value>
