@@ -25,7 +25,7 @@ And I like this guy.
         req get https://github.com
         ret 200
 
-* Assume your file name is `001-ret.l` (see [example/001-ret.l](https://github.com/brg-liuwei/r2/blob/master/examples/001-ret.l)):
+* Assume your file name is `001-ret.l` (see [examples/001-ret.l](examples/001-ret.l)):
 
         chmod +x 001-ret.l
         ./001-ret.l
@@ -113,7 +113,7 @@ For detail, see dir `example`, run example code:
             }
         }
 
-* Write test case (see [004-header-body.l](examples/004-header-and-body.l) for detail):
+* Write test case (see [examples/004-header-and-body.l](examples/004-header-and-body.l) for detail):
 
         #!/usr/bin/env r2
 
