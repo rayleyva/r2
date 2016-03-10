@@ -46,15 +46,17 @@ And I like this guy.
         magenta <msg1> <msg2> ...
         cyan <msg1> <msg2> ...
 
-* Generate a request:
+* Generate requests:
 
         req <method> <url>
         header <key> <value>
         body <data>
 
-* Test response
+* Check responses:
 
         ret <status_code>
+        header-equal <key> <value>
+        body-equal <data>
 
 ### Examples
 
@@ -74,7 +76,7 @@ For detail, see dir `example`, run example code:
             listen 9999;
             server_name 127.0.0.1;
         
-            location /test_r2 {
+            location /test_r2/004 {
                 content_by_lua_block {
                     -- test case 1: http method
                     if ngx.req.get_method() ~= "POST" then
@@ -118,34 +120,34 @@ For detail, see dir `example`, run example code:
         #!/usr/bin/env r2
 
         cyan case 1: HTTP GET
-        req get http://127.0.0.1:9999/test_r2
+        req get http://127.0.0.1:9999/test_r2/004
         ret 403
         
         cyan case 2: HTTP HEADER
-        req post http://127.0.0.1:9999/test_r2
+        req post http://127.0.0.1:9999/test_r2/004
         header Content-Type application/text
         ret 520
         
         cyan case 3: json decode 
-        req post http://127.0.0.1:9999/test_r2
+        req post http://127.0.0.1:9999/test_r2/004
         header Content-Type application/json
         body {"ret":204B}
         ret 521
         
         cyan case 4: json key
-        req post http://127.0.0.1:9999/test_r2
+        req post http://127.0.0.1:9999/test_r2/004
         header Content-Type application/json
         body {"return":204}
         ret 522
         
         cyan case 5: json data type
-        req post http://127.0.0.1:9999/test_r2
+        req post http://127.0.0.1:9999/test_r2/004
         header Content-Type application/json
         body "{\"ret\":\"204\"}"
         ret 523
         
         cyan case 6: json data type
-        req post http://127.0.0.1:9999/test_r2
+        req post http://127.0.0.1:9999/test_r2/004
         header Content-Type application/json
         body {"ret":204}
         ret 204
@@ -177,10 +179,8 @@ For detail, see dir `example`, run example code:
 
 * Test response
 
-        header-equal <key> <value>
         header-match <key> <regexp-value>
 
-        body-equal <data>
         body-match <regexp-data>
 
         latency <micro-second>

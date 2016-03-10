@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -104,5 +105,87 @@ func ret(cmd *Cmd) (error, CmdExecCallBack) {
 	}
 	return nil, func(file string, line int) {
 		Green("[PASS]", FileLine(file, line), "ret", expected)
+	}
+}
+
+// header-equal Content-Type application/json
+func headerEqual(cmd *Cmd) (error, CmdExecCallBack) {
+	if err := gReq.Launch(gRep); err != nil {
+		return err, nil
+	}
+	header := gRep.rawRep.Header
+	v := strings.TrimSpace(header.Get(cmd.args[0]))
+	if len(v) == 0 {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line),
+				"missing header:", cmd.args[0])
+		}
+	}
+
+	if v == cmd.args[1] {
+		return nil, func(file string, line int) {
+			Green("[PASS]", FileLine(file, line), cmd.args[0], cmd.args[1])
+		}
+	}
+
+	return nil, func(file string, line int) {
+		Red("[FAIL]", FileLine(file, line),
+			"header:", cmd.args[0],
+			"return:", v,
+			"expected:", cmd.args[1])
+	}
+}
+
+// body-equal {"errno":0,"errmsg":"ok","result":[200]}
+func bodyEqual(cmd *Cmd) (error, CmdExecCallBack) {
+	if err := gReq.Launch(gRep); err != nil {
+		return err, nil
+	}
+	bodyReader := gRep.rawRep.Body
+	defer bodyReader.Close()
+
+	expectedBody := []byte(cmd.args[0])
+
+	var n int
+	var err error
+
+	errf := func(errMsg string) func(string, int) {
+		return func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line), errMsg)
+		}
+	}
+
+	bufEqual := func(expected []byte, actually []byte) (bool, func(string, int)) {
+		n := len(actually)
+		if len(expected)+1 < n {
+			return false, errf("length of expected body less than actually returned")
+		}
+		if !bytes.Equal(expectedBody[:n], actually[:]) {
+			return false, errf("expected slice: " + string(expectedBody[:n]) +
+				" ; actually returned slice: " + string(actually[:]))
+		}
+		return true, nil
+	}
+
+	for {
+		var buf [16]byte
+		n, err = bodyReader.Read(buf[:])
+		if err != nil {
+			if err == io.EOF {
+				if ok, f := bufEqual(expectedBody[:], bytes.TrimSpace(buf[:n])); !ok {
+					return nil, f
+				}
+				return nil, func(file string, line int) {
+					Green("[PASS]", FileLine(file, line), "body equal")
+				}
+			}
+			return err, nil
+		}
+
+		if ok, f := bufEqual(expectedBody[:], bytes.TrimSpace(buf[:n])); !ok {
+			return nil, f
+		}
+
+		expectedBody = expectedBody[n:]
 	}
 }
