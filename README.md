@@ -173,15 +173,13 @@ For detail, see dir `example`, run example code:
 
 ### TODO
 
-* Generate a request:
+* Generate requests:
 
         auth <auth-name> <auth-interface>
 
-* Test response
+* Check responses:
 
         header-match <key> <regexp-value>
-
         body-match <regexp-data>
-
         latency <micro-second>
 
