@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"errors"
+	"io"
 	"net/http"
 	"regexp"
 )
@@ -28,12 +29,18 @@ func NewReq() *Req {
 }
 
 type Rep struct {
-	rawRep *http.Response
+	rawRep     *http.Response
+	body       []byte
+	bodyIsRead bool
+	vars       map[string]string
 }
 
 func NewRep() *Rep {
 	return &Rep{
-		rawRep: nil,
+		rawRep:     nil,
+		body:       make([]byte, 0, 1024),
+		bodyIsRead: false,
+		vars:       make(map[string]string),
 	}
 }
 
@@ -171,7 +178,34 @@ func (r *Req) Launch(rep *Rep) error {
 	return nil
 }
 
+func (rep *Rep) readBody() error {
+	if rep.bodyIsRead {
+		return nil
+	}
+	bodyReader := gRep.rawRep.Body
+	defer bodyReader.Close()
+
+	gRep.bodyIsRead = true
+
+	for {
+		var buf [64]byte
+		n, err := bodyReader.Read(buf[:])
+		if err != nil {
+			if err == io.EOF {
+				rep.body = append(rep.body, buf[:n]...)
+				return nil
+			}
+			return err
+		}
+		rep.body = append(rep.body, buf[:n]...)
+	}
+}
+
 func (rep *Rep) Cleanup() error {
+	rep.body = make([]byte, 0, 1024)
+	rep.bodyIsRead = false
+	rep.vars = make(map[string]string)
+
 	if rep.rawRep != nil && !rep.rawRep.Close {
 		return rep.rawRep.Body.Close()
 	}

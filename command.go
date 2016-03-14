@@ -44,6 +44,13 @@ var gCmdMap map[string]cmdValue = map[string]cmdValue{
 	"ret":          {narg: 1, exec: ret},
 	"header-equal": {narg: 2, exec: headerEqual},
 	"body-equal":   {narg: 1, exec: bodyEqual},
+	"header-match": {narg: 2, exec: headerMatch},
+	"body-match":   {narg: 1, exec: bodyMatch},
+	"var-equal":    {narg: 2, exec: varEqual},
+	"var-echo":     {narg: 1, exec: varEcho},
+
+	// debug
+	"body-echo": {narg: 0, exec: bodyEcho},
 }
 
 func CmdParser(line string) (*Cmd, error) {

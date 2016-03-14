@@ -38,7 +38,10 @@ And I like this guy.
 
 * Echo commands:
 
+        // see examples/003-echo.l
         echo <msg1> <msg2> ...
+
+        // see examples/002-color.l
         red <msg1> <msg2> ...
         green <msg1> <msg2> ...
         brown <msg1> <msg2> ...
@@ -48,15 +51,26 @@ And I like this guy.
 
 * Generate requests:
 
+        // see examples/001-ret.l
         req <method> <url>
+
+        // see examples/004-header-and-body.l
         header <key> <value>
         body <data>
 
 * Check responses:
 
+        // see examples/001-ret.l
         ret <status_code>
+
+        // see examples/005-equal.l
         header-equal <key> <value>
         body-equal <data>
+
+        // see examples/006-match.l
+        header-match <key> <regexp-value>
+        body-match <regexp-data>
+        var-equal <var-name> <var-value>
 
 ### Examples
 
@@ -179,7 +193,5 @@ For detail, see dir `example`, run example code:
 
 * Check responses:
 
-        header-match <key> <regexp-value>
-        body-match <regexp-data>
         latency <micro-second>
 

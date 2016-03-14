@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"io"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -141,51 +141,131 @@ func bodyEqual(cmd *Cmd) (error, CmdExecCallBack) {
 	if err := gReq.Launch(gRep); err != nil {
 		return err, nil
 	}
-	bodyReader := gRep.rawRep.Body
-	defer bodyReader.Close()
+	if err := gRep.readBody(); err != nil {
+		return err, nil
+	}
 
 	expectedBody := []byte(cmd.args[0])
+	if !bytes.Equal(expectedBody, gRep.body) {
+		return nil, func(file string, line int) {
+			Green("[PASS]", FileLine(file, line), "body equal")
+		}
+	}
+	return nil, func(file string, line int) {
+		Red("[FAIL]", FileLine(file, line), "body un-equal")
+	}
+}
 
-	var n int
-	var err error
-
-	errf := func(errMsg string) func(string, int) {
-		return func(file string, line int) {
-			Red("[FAIL]", FileLine(file, line), errMsg)
+// header-match key <regexp>
+func headerMatch(cmd *Cmd) (error, CmdExecCallBack) {
+	if err := gReq.Launch(gRep); err != nil {
+		return err, nil
+	}
+	header := gRep.rawRep.Header
+	v := strings.TrimSpace(header.Get(cmd.args[0]))
+	if len(v) == 0 {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line),
+				"missing header:", cmd.args[0])
 		}
 	}
 
-	bufEqual := func(expected []byte, actually []byte) (bool, func(string, int)) {
-		n := len(actually)
-		if len(expected)+1 < n {
-			return false, errf("length of expected body less than actually returned")
-		}
-		if !bytes.Equal(expectedBody[:n], actually[:]) {
-			return false, errf("expected slice: " + string(expectedBody[:n]) +
-				" ; actually returned slice: " + string(actually[:]))
-		}
-		return true, nil
+	re, err := regexp.Compile(cmd.args[1])
+	if err != nil {
+		return err, nil
 	}
 
-	for {
-		var buf [16]byte
-		n, err = bodyReader.Read(buf[:])
-		if err != nil {
-			if err == io.EOF {
-				if ok, f := bufEqual(expectedBody[:], bytes.TrimSpace(buf[:n])); !ok {
-					return nil, f
-				}
-				return nil, func(file string, line int) {
-					Green("[PASS]", FileLine(file, line), "body equal")
-				}
+	if !re.MatchString(v) {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line), "header un-match: ", v)
+		}
+	}
+	return nil, func(file string, line int) {
+		Green("[PASS]", FileLine(file, line), "header match")
+	}
+}
+
+// body-match <regexp>
+func bodyMatch(cmd *Cmd) (error, CmdExecCallBack) {
+	if err := gReq.Launch(gRep); err != nil {
+		return err, nil
+	}
+	if err := gRep.readBody(); err != nil {
+		return err, nil
+	}
+
+	re, err := regexp.Compile(cmd.args[0])
+	if err != nil {
+		return err, nil
+	}
+
+	body := string(gRep.body)
+	if !re.Match(gRep.body) {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line), "body un-match")
+		}
+	}
+
+	// get vars
+	for i, n := range re.SubexpNames() {
+		if i != 0 && len(strings.TrimSpace(n)) != 0 {
+			dst := make([]byte, 0, 1024)
+			matches := re.FindStringSubmatchIndex(body)
+			v := re.ExpandString(dst, "${"+n+"}", body, matches)
+			if len(v) != 0 {
+				gRep.vars[n] = string(v)
 			}
-			return err, nil
 		}
-
-		if ok, f := bufEqual(expectedBody[:], bytes.TrimSpace(buf[:n])); !ok {
-			return nil, f
-		}
-
-		expectedBody = expectedBody[n:]
 	}
+	return nil, func(file string, line int) {
+		Green("[PASS]", FileLine(file, line), "body matched")
+	}
+}
+
+// var-equal var_name expected_value
+func varEqual(cmd *Cmd) (error, CmdExecCallBack) {
+	k := cmd.args[0]
+	v, ok := gRep.vars[k]
+	if !ok {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line), "var:", k, "not exist")
+		}
+	}
+
+	if v != cmd.args[1] {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line), "var:", k,
+				"value:", v, ", expected:", cmd.args[1])
+		}
+	}
+	return nil, func(file string, line int) {
+		Green("[PASS]", FileLine(file, line), "var: ", k, "equal")
+	}
+}
+
+// var-echo var_name
+func varEcho(cmd *Cmd) (error, CmdExecCallBack) {
+	k := cmd.args[0]
+	v, ok := gRep.vars[k]
+	if !ok {
+		return nil, func(file string, line int) {
+			Red("[FAIL]", FileLine(file, line), "var:", k, "not exist")
+		}
+	}
+	return nil, func(file string, line int) {
+		Cyan("[VAR]", FileLine(file, line), k, "==>", v)
+	}
+}
+
+// internal debug command
+func bodyEcho(cmd *Cmd) (error, CmdExecCallBack) {
+	if err := gReq.Launch(gRep); err != nil {
+		return err, nil
+	}
+	if err := gRep.readBody(); err != nil {
+		return err, nil
+	}
+	fmt.Println(string(gRep.body))
+	fmt.Println(len(gRep.body))
+	return nil, nil
 }
