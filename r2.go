@@ -7,7 +7,7 @@ import (
 func usage() {
 	cmd := os.Args[0]
 	Brown("Usage of ", cmd)
-	Brown("    ", cmd, "<mytest.l> ...")
+	Brown("    ", cmd, "<mytest.r2> ...")
 }
 
 func main() {
