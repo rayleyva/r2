@@ -1,18 +1,18 @@
 # r2: a DSL for HTTP Auto Test
 
-What is [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) (Domain-Specific Language)?
+What is a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) (Domain-Specific Language)?
 
 ### Synopsis
 
-[R2-D2](https://en.wikipedia.org/wiki/R2-D2) or Artoo-Detoo (called "R2" for short) is a fictional character in the Star Wars universe.
+Found this at: github.com/brg-liuwei/r2
 
-And I like this guy.
+Looked interesting, but no updates since 2016. Decided to pick it up for a quick weekend project.
 
-![R2-D2](R2-D2_Droid.png)
+Don't expect much, if any activity on this, just have it around to kick the tires.
 
 ### Installation
 
-    go get -u github.com/brg-liuwei/r2
+    go get -u github.com/rayleyva/r2
 
 ### Usage
 
@@ -25,23 +25,23 @@ And I like this guy.
         req get https://github.com
         ret 200
 
-* Assume your file name is `001-ret.l` (see [examples/001-ret.l](examples/001-ret.l)):
+* Assume your file name is `001-ret.r2` (see [examples/001-ret.r2](examples/001-ret.r2)):
 
-        chmod +x 001-ret.l
-        ./001-ret.l
+        chmod +x 001-ret.r2
+        ./001-ret.r2
 
         // Output:
         // send get request to github.com, check return code
-        // [PASS] <./001-ret.l:6> ret 200
+        // [PASS] <./001-ret.r2:6> ret 200
 
 ### Commands
 
 * Echo commands:
 
-        // see examples/003-echo.l
+        // see examples/003-echo.r2
         echo <msg1> <msg2> ...
 
-        // see examples/002-color.l
+        // see examples/002-color.r2
         red <msg1> <msg2> ...
         green <msg1> <msg2> ...
         brown <msg1> <msg2> ...
@@ -51,23 +51,23 @@ And I like this guy.
 
 * Generate requests:
 
-        // see examples/001-ret.l
+        // see examples/001-ret.r2
         req <method> <url>
 
-        // see examples/004-header-and-body.l
+        // see examples/004-header-and-body.r2
         header <key> <value>
         body <data>
 
 * Check responses:
 
-        // see examples/001-ret.l
+        // see examples/001-ret.r2
         ret <status_code>
 
-        // see examples/005-equal.l
+        // see examples/005-equal.r2
         header-equal <key> <value>
         body-equal <data>
 
-        // see examples/006-match.l
+        // see examples/006-match.r2
         header-match <key> <regexp-value>
         body-match <regexp-data>
         var-equal <var-name> <var-value>
@@ -76,11 +76,11 @@ And I like this guy.
 
 For detail, see dir `example`, run example code:
 
-    // run 001-ret.l
-    r2 example/001-ret.l
+    // run 001-ret.r2
+    r2 example/001-ret.r2
 
     // run all test case in example
-    r2 example/*.l
+    r2 example/*.r2
 
 ##### Examples of `header` and `body`:
 
@@ -129,7 +129,7 @@ For detail, see dir `example`, run example code:
             }
         }
 
-* Write test case (see [examples/004-header-and-body.l](examples/004-header-and-body.l) for detail):
+* Write test case (see [examples/004-header-and-body.r2](examples/004-header-and-body.r2) for detail):
 
         #!/usr/bin/env r2
 
@@ -168,22 +168,22 @@ For detail, see dir `example`, run example code:
 
 * Run example code:
 
-        cd /path/to/example/004-header-body.l
-        ./004-header-body.l
+        cd /path/to/example/004-header-body.r2
+        ./004-header-body.r2
 
         // Outputs:
         // case 1: HTTP GET
-        // [PASS] <./004-header-and-body.l:49> ret 403
+        // [PASS] <./004-header-and-body.r2:49> ret 403
         // case 2: HTTP HEADER
-        // [PASS] <./004-header-and-body.l:54> ret 520
+        // [PASS] <./004-header-and-body.r2:54> ret 520
         // case 3: json decode
-        // [PASS] <./004-header-and-body.l:60> ret 521
+        // [PASS] <./004-header-and-body.r2:60> ret 521
         // case 4: json key
-        // [PASS] <./004-header-and-body.l:66> ret 522
+        // [PASS] <./004-header-and-body.r2:66> ret 522
         // case 5: json data type
-        // [PASS] <./004-header-and-body.l:72> ret 523
+        // [PASS] <./004-header-and-body.r2:72> ret 523
         // case 6: json data type
-        // [PASS] <./004-header-and-body.l:78> ret 204
+        // [PASS] <./004-header-and-body.r2:78> ret 204
 
 ### TODO
 
