@@ -50,11 +50,12 @@ const (
 	E
 )
 
-// Auto State Machine
+//ASM Auto State Machine
 type ASM struct {
 	state int
 }
 
+//NewASM Create an Auto State Machine with a default state of 5
 func NewASM() *ASM {
 	return &ASM{
 		state: S,
@@ -152,6 +153,7 @@ func (asm *ASM) accept(r rune) (rc rune, toAppend bool, end bool, err error) {
 	}
 }
 
+//GetString Returns a triple (string, integer, error)
 func (asm *ASM) GetString(s []rune) (string, int, error) {
 	asm.init()
 	defer asm.cleanup()
